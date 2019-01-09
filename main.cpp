@@ -197,14 +197,26 @@ draw()
 					 yy0 + (*it)(1)*ratio);
 		}
 	}
-	fl_color(FL_RED);
 
 	int c;
 	for ( c = 0 ; c < NUM_CLUSTER ; c++ )
 	{
-#if 0
-		double l;
+		switch (c)
+		{
+		case 0:
+			fl_color(FL_YELLOW);
+			break;
+		case 1:
+			fl_color(FL_RED);
+			break;
+		case 2:
+			fl_color(FL_CYAN);
+			break;
+		}
+
+#if 1
 		Cluster cl = MyWindow::gmm.clusters[c];
+		double l;
 
 		fl_rectf(x0 + cl.mean[0]*ratio-2., yy0 + cl.mean[1]*ratio-2., 5., 5.);
 
@@ -219,18 +231,6 @@ draw()
 				x0+ cl.mean[0]*ratio + l*cl.eigvec.col(1)[0].real()*ratio, 
 				yy0 + cl.mean[1]*ratio + l*cl.eigvec.col(1)[1].real()*ratio);
 #else
-			switch ( c )
-			{
-			case 0:
-				fl_color(FL_YELLOW);
-				break;
-			case 1:
-				fl_color(FL_RED);
-				break;
-			case 2:
-				fl_color(FL_CYAN);
-				break;
-			}
 		Cluster_KMeans cl = MyWindow::kmeans.clusters[c];
 		fl_rectf(x0 + cl.mean[0]*ratio-2., yy0 + cl.mean[1]*ratio-2., 5., 5.);
 #endif
@@ -293,7 +293,7 @@ void MyWindow::
 cb_control(Fl_Widget *widget, void *param)
 {
 	MyWindow *pWin = (MyWindow *)param;
-//	pWin->gmm.iterate();
+	pWin->gmm.iterate();
 	pWin->kmeans.iterate();
 }
 
